@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TrackingYou Empresas — Sistema de Rastreamento e Gestão para Frotas e Ativos</title>
+<meta name="description" content="Plataforma de rastreamento white label para setor público, empresas e frotas. Rastreador veicular 4G e tags sem chip, unificados em um único sistema de gestão.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f4ef;
+    --bg2: #edeae1;
+    --card: #ffffff;
+    --card2: #f9f7f2;
+    --teal: #0f6b5c;
+    --teal-bright: #12836f;
+    --teal-glow: rgba(15,107,92,0.10);
+    --teal-border: rgba(15,107,92,0.28);
+    --gold: #a97c1f;
+    --gold-glow: rgba(169,124,31,0.12);
+    --text: #1c2430;
+    --muted: #6b6f66;
+    --border: rgba(28,36,32,0.10);
+    --success: #4a7c4e;
+    --success-glow: rgba(74,124,78,0.12);
+    --amber: #a97c1f;
+    --radius: 10px;
+    --radius-lg: 16px;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); line-height:1.6; overflow-x:hidden; }
+  .display { font-family:'Source Serif 4',serif; letter-spacing:-0.01em; }
+  .container { max-width:1180px; margin:0 auto; padding:0 2rem; }
+  a { color:inherit; }
+  img { max-width:100%; display:block; }
+
+  /* NAV */
+  header { position:sticky; top:0; z-index:50; background:rgba(246,244,239,0.88); backdrop-filter:blur(12px); border-bottom:1px solid var(--border); }
+  nav { display:flex; align-items:center; justify-content:space-between; padding:1.1rem 0; }
+  .logo { font-size:1.25rem; font-weight:700; }
+  .logo span { color:var(--teal-bright); }
+  .logo-tag { display:inline-block; margin-left:10px; font-family:'Inter',sans-serif; font-size:0.65rem; font-weight:700; letter-spacing:0.08em; color:var(--teal-bright); background:var(--teal-glow); border:1px solid var(--teal-border); padding:3px 9px; border-radius:100px; vertical-align:2px; text-transform:uppercase; }
+  .nav-links { display:flex; gap:2rem; list-style:none; font-size:0.9rem; color:var(--muted); }
+  .nav-links a:hover { color:var(--text); }
+  .nav-cta { background:var(--teal); color:#fff; padding:10px 22px; border-radius:8px; text-decoration:none; font-size:0.86rem; font-weight:600; transition:background .2s; white-space:nowrap; }
+  .nav-cta:hover { background:var(--teal-bright); }
+  .nav-mobile-links { display:none; }
+  @media (max-width:860px){ .nav-links{ display:none; } }
+
+  section { padding:6rem 0; }
+  .section-eyebrow { color:var(--teal-bright); font-size:0.76rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; margin-bottom:0.9rem; }
+  .section-title { font-size:clamp(1.8rem,3.4vw,2.5rem); font-weight:700; line-height:1.2; margin-bottom:1rem; }
+  .section-sub { color:var(--muted); font-size:1.05rem; max-width:620px; line-height:1.7; }
+
+  /* HERO */
+  .hero { padding:5.5rem 0 4rem; position:relative; overflow:hidden; }
+  .hero::before { content:''; position:absolute; top:-200px; right:-200px; width:600px; height:600px; background:radial-gradient(circle, var(--teal-glow), transparent 70%); pointer-events:none; }
+  .hero-grid { display:block; position:relative; margin:0 auto; }
+  .badge { display:inline-flex; align-items:center; gap:8px; background:var(--teal-glow); border:1px solid var(--teal-border); color:var(--teal-bright); padding:7px 16px; border-radius:100px; font-size:0.78rem; font-weight:600; letter-spacing:0.04em; margin-bottom:1.6rem; }
+  .hero h1 { font-size:clamp(2.3rem,4.6vw,3.4rem); font-weight:700; line-height:1.12; letter-spacing:-0.02em; margin-bottom:1.4rem; }
+  .hero h1 em { font-style:normal; color:var(--teal-bright); }
+  .hero p.sub { font-size:1.08rem; color:var(--muted); max-width:540px; margin-bottom:2.2rem; line-height:1.75; }
+  .hero-ctas { display:flex; gap:1rem; flex-wrap:wrap; margin-bottom:2.6rem; }
+  .btn-primary { background:var(--teal); color:#fff; padding:14px 28px; border-radius:var(--radius); font-size:0.96rem; font-weight:700; text-decoration:none; transition:all .2s; border:none; cursor:pointer; display:inline-flex; align-items:center; gap:8px; }
+  .btn-primary:hover { background:var(--teal-bright); transform:translateY(-1px); }
+  .btn-ghost { background:transparent; color:var(--text); padding:14px 28px; border-radius:var(--radius); font-size:0.96rem; font-weight:600; text-decoration:none; border:1px solid var(--border); transition:all .2s; }
+  .btn-ghost:hover { border-color:var(--teal-border); color:var(--teal-bright); }
+  .hero-trust { display:flex; gap:1.8rem; flex-wrap:wrap; font-size:0.82rem; color:var(--muted); }
+  .hero-trust span { display:flex; align-items:center; gap:7px; }
+
+  .value-bar { display:flex; align-items:flex-start; gap:2.2rem; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2.1rem 2.4rem; }
+  @media (max-width:860px){ .value-bar{ flex-direction:column; gap:1.6rem; } }
+  .value-item { display:flex; gap:14px; flex:1; }
+  .value-icon { width:42px; height:42px; border-radius:10px; background:var(--teal-glow); border:1px solid var(--teal-border); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .value-item b { display:block; font-size:0.96rem; font-weight:700; margin-bottom:4px; }
+  .value-item span { font-size:0.83rem; color:var(--muted); line-height:1.55; }
+  .value-divider { width:1px; align-self:stretch; background:var(--border); }
+  @media (max-width:860px){ .value-divider{ display:none; } }
+  .dot-ok { width:6px; height:6px; border-radius:50%; background:var(--success); flex-shrink:0; }
+
+  /* Hero visual: pulsing coverage map */
+  /* SETORES */
+  .sectors-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:1.25rem; margin-top:3rem; }
+  @media (max-width:900px){ .sectors-grid{ grid-template-columns:repeat(2,1fr); } }
+  @media (max-width:560px){ .sectors-grid{ grid-template-columns:1fr; } }
+  .sector-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:1.8rem 1.5rem; transition:border-color .2s, transform .2s; }
+  .sector-card:hover { border-color:var(--teal-border); transform:translateY(-3px); }
+  .sector-icon { width:46px; height:46px; border-radius:11px; background:var(--teal-glow); border:1px solid var(--teal-border); display:flex; align-items:center; justify-content:center; margin-bottom:1.1rem; }
+  .sector-card h3 { font-size:1.02rem; font-weight:700; margin-bottom:0.5rem; font-family:'Source Serif 4',serif; }
+  .sector-card p { font-size:0.86rem; color:var(--muted); line-height:1.6; }
+
+  /* TECNOLOGIAS */
+  .tech-alt { background:var(--bg2); }
+  .tech-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.75rem; margin-top:3rem; }
+  @media (max-width:860px){ .tech-grid{ grid-template-columns:1fr; } }
+  .tech-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2.2rem; position:relative; overflow:hidden; }
+  .tech-card.pro { border-color:rgba(169,124,31,0.3); }
+  .tech-card.tag { border-color:rgba(74,124,78,0.3); }
+  .tech-kicker { font-size:0.72rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; padding:4px 12px; border-radius:100px; display:inline-block; margin-bottom:1.1rem; }
+  .tech-card.pro .tech-kicker { background:rgba(169,124,31,0.14); color:var(--amber); }
+  .tech-card.tag .tech-kicker { background:var(--success-glow); color:var(--success); }
+  .tech-card h3 { font-size:1.5rem; font-weight:700; margin-bottom:0.6rem; font-family:'Source Serif 4',serif; }
+  .tech-card .tech-desc { color:var(--muted); font-size:0.92rem; margin-bottom:1.6rem; line-height:1.65; }
+  .tech-specs { list-style:none; display:flex; flex-direction:column; gap:0.7rem; }
+  .tech-specs li { display:flex; justify-content:space-between; gap:1rem; font-size:0.85rem; padding-bottom:0.7rem; border-bottom:1px solid var(--border); }
+  .tech-specs li:last-child { border-bottom:none; padding-bottom:0; }
+  .tech-specs .k { color:var(--muted); }
+  .tech-specs .v { font-weight:600; text-align:right; }
+  .tech-card.pro .v.hl { color:var(--amber); }
+  .tech-card.tag .v.hl { color:var(--success); }
+
+  /* COMBO CALLOUT */
+  .combo-box { margin-top:2.2rem; background:linear-gradient(135deg, rgba(15,107,92,0.07), rgba(74,124,78,0.05)); border:1px solid var(--teal-border); border-radius:var(--radius-lg); padding:2.2rem 2.4rem; }
+  .combo-box h4 { font-family:'Source Serif 4',serif; font-size:1.15rem; font-weight:700; margin-bottom:0.9rem; display:flex; align-items:center; gap:10px; }
+  .combo-list { list-style:none; display:grid; grid-template-columns:1fr 1fr; gap:0.8rem 2rem; margin-top:1rem; }
+  @media (max-width:700px){ .combo-list{ grid-template-columns:1fr; } }
+  .combo-list li { font-size:0.87rem; color:var(--muted); display:flex; gap:10px; line-height:1.55; }
+  .combo-list li b { color:var(--text); font-weight:600; }
+  .check-ic { color:var(--success); flex-shrink:0; margin-top:2px; }
+
+  /* PLATAFORMA */
+  .whitelabel-box { margin-top:2.5rem; background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2.2rem 2.4rem; }
+  .whitelabel-box h4 { font-family:'Source Serif 4',serif; font-size:1.2rem; font-weight:600; margin-bottom:0.9rem; }
+  .wl-intro { color:var(--muted); font-size:0.92rem; line-height:1.7; max-width:760px; margin-bottom:1.8rem; }
+  .wl-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:1.4rem 1.8rem; }
+  @media (max-width:860px){ .wl-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .wl-grid{ grid-template-columns:1fr; } }
+  .wl-item { border-left:2px solid var(--teal-border); padding-left:14px; }
+  .wl-label { font-size:0.85rem; font-weight:700; margin-bottom:4px; }
+  .wl-value { font-size:0.8rem; color:var(--muted); line-height:1.5; }
+  .platform-grid { display:grid; grid-template-columns:0.9fr 1.1fr; gap:3rem; align-items:start; margin-top:3rem; }
+  @media (max-width:900px){ .platform-grid{ grid-template-columns:1fr; } }
+  .role-table { width:100%; border-collapse:collapse; font-size:0.86rem; table-layout:fixed; }
+  .role-table th { text-align:left; color:var(--teal-bright); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; padding-bottom:0.9rem; border-bottom:1px solid var(--border); font-weight:700; }
+  .role-table th:first-child, .role-table td.role-name { width:34%; }
+  .role-table td { padding:1.1rem 0; border-bottom:1px solid var(--border); vertical-align:top; }
+  .role-table tr:last-child td { border-bottom:none; }
+  .role-name { font-weight:700; padding-right:1.5rem; }
+  .role-desc { color:var(--muted); line-height:1.6; }
+  .platform-features { list-style:none; display:flex; flex-direction:column; gap:1.1rem; }
+  .platform-features li { display:flex; gap:12px; font-size:0.92rem; color:var(--muted); line-height:1.6; }
+  .platform-features b { color:var(--text); display:block; font-weight:600; margin-bottom:2px; }
+
+  /* SEGURANÇA / ANATEL */
+  .trust-grid { display:grid; grid-template-columns:1fr 1fr; gap:2rem; margin-top:3rem; }
+  @media (max-width:860px){ .trust-grid{ grid-template-columns:1fr; } }
+  .trust-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; }
+  .trust-card h4 { font-family:'Source Serif 4',serif; font-size:1.1rem; font-weight:700; margin-bottom:0.8rem; }
+  .trust-card p { color:var(--muted); font-size:0.88rem; line-height:1.7; }
+  .anatel-num { display:inline-block; margin-top:1rem; font-family:'Source Serif 4',serif; font-weight:700; font-size:0.95rem; background:var(--bg2); border:1px solid var(--border); padding:8px 16px; border-radius:8px; letter-spacing:0.02em; }
+
+  /* PROCESSO */
+  .process-steps { display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:3rem; counter-reset:step; }
+  @media (max-width:900px){ .process-steps{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .process-steps{ grid-template-columns:1fr; } }
+  .process-step { position:relative; padding-top:2.2rem; }
+  .process-step::before { counter-increment:step; content:counter(step); position:absolute; top:0; left:0; width:40px; height:40px; border-radius:10px; background:var(--teal-glow); border:1px solid var(--teal-border); color:var(--teal-bright); font-family:'Source Serif 4',serif; font-weight:700; display:flex; align-items:center; justify-content:center; font-size:1.05rem; }
+  .process-step h4 { font-size:0.98rem; font-weight:700; margin:1rem 0 0.5rem; font-family:'Source Serif 4',serif; }
+  .process-step p { font-size:0.85rem; color:var(--muted); line-height:1.6; }
+
+  /* CTA FINAL */
+  .cta-final { background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border); }
+  .cta-grid { display:grid; grid-template-columns:1fr 1fr; gap:3.5rem; align-items:start; }
+  @media (max-width:900px){ .cta-grid{ grid-template-columns:1fr; } }
+  .cta-copy h2 { font-size:clamp(1.7rem,3vw,2.2rem); margin-bottom:1rem; line-height:1.25; }
+  .cta-value-list { list-style:none; display:flex; flex-direction:column; gap:0.7rem; margin-bottom:1.8rem; }
+  .cta-value-list li { font-size:0.92rem; color:var(--text); display:flex; align-items:center; gap:10px; }
+  .cta-form { background:var(--card); border:1px solid var(--border); border-radius:var(--radius-lg); padding:2rem; display:flex; flex-direction:column; gap:1.1rem; }
+  .fg { display:flex; flex-direction:column; gap:6px; flex:1; }
+  .fg-row { display:flex; gap:1rem; }
+  @media (max-width:520px){ .fg-row{ flex-direction:column; } }
+  .fg label { font-size:0.78rem; color:var(--muted); font-weight:600; }
+  .fg input, .fg select { background:var(--bg2); border:1px solid var(--border); border-radius:8px; padding:11px 13px; color:var(--text); font-family:'Inter',sans-serif; font-size:0.92rem; outline:none; transition:border-color .2s; }
+  .fg input:focus, .fg select:focus { border-color:var(--teal-border); }
+  .fg select { cursor:pointer; }
+  .cta-box { text-align:center; max-width:640px; margin:0 auto; }
+  .cta-box h2 { font-size:clamp(1.8rem,3.4vw,2.4rem); margin-bottom:1rem; }
+  .cta-box p { color:var(--muted); margin-bottom:2.2rem; font-size:1.02rem; }
+  .cta-note { margin-top:1.6rem; font-size:0.82rem; color:var(--muted); }
+
+  footer { padding:3rem 0 2.5rem; }
+  .footer-grid { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem; padding-top:2rem; border-top:1px solid var(--border); }
+  .footer-logo { font-size:1.1rem; font-weight:700; }
+  .footer-meta { font-size:0.8rem; color:var(--muted); line-height:1.7; }
+  .footer-links { display:flex; gap:1.6rem; font-size:0.85rem; color:var(--muted); list-style:none; }
+
+  ::selection { background:var(--teal-glow); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="container">
+    <nav>
+      <div class="logo">Tracking<span>You</span><span class="logo-tag">Empresas</span></div>
+      <ul class="nav-links">
+        <li><a href="#tecnologias">Tecnologias</a></li>
+        <li><a href="#setores">Setores</a></li>
+        <li><a href="#plataforma">Plataforma</a></li>
+        <li><a href="#seguranca">Segurança</a></li>
+        <li><a href="#processo">Como funciona</a></li>
+      </ul>
+      <a href="#contato" class="nav-cta">Agendar reunião</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid" style="max-width:760px;">
+      <div>
+        <div class="badge">Rastreamento corporativo &amp; institucional</div>
+        <h1>Uma plataforma, <em>duas tecnologias</em>, cobertura completa para sua operação.</h1>
+        <p class="sub">A TrackingYou reúne rastreamento veicular 4G e tags sem chip em um único sistema de gestão — white label, com controle de acesso por equipe, pronto para frotas, setor público e operações de qualquer porte.</p>
+        <div class="hero-ctas">
+          <a href="#contato" class="btn-primary">Agendar reunião comercial →</a>
+          <a href="#tecnologias" class="btn-ghost">Ver as tecnologias</a>
+        </div>
+        <div class="hero-trust">
+          <span><span class="dot-ok"></span> Homologado Anatel</span>
+          <span><span class="dot-ok"></span> Plataforma white label</span>
+          <span><span class="dot-ok"></span> Suporte dedicado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding:0 0 4rem;">
+  <div class="container">
+    <div class="value-bar">
+      <div class="value-item">
+        <div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="12" rx="2" stroke="#0f6b5c" stroke-width="1.6"/><path d="M8 20h8M12 16v4" stroke="#0f6b5c" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div><b>Software próprio</b><span>Plataforma de gestão desenvolvida e mantida por nós — não é revenda de sistema de terceiros.</span></div>
+      </div>
+      <div class="value-divider"></div>
+      <div class="value-item">
+        <div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="7" y="2" width="10" height="17" rx="2" stroke="#0f6b5c" stroke-width="1.6"/><circle cx="12" cy="16" r="0.6" fill="#0f6b5c"/><path d="M9 21h6" stroke="#0f6b5c" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <div><b>Hardware próprio</b><span>Rastreadores e tags fornecidos e homologados por nós, do fabricante direto pra sua operação.</span></div>
+      </div>
+      <div class="value-divider"></div>
+      <div class="value-item">
+        <div class="value-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z" stroke="#0f6b5c" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <div><b>Um único fornecedor</b><span>Equipamento, plataforma e suporte técnico sob o mesmo contrato — sem terceirizar responsabilidade.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="setores">
+  <div class="container">
+    <div class="section-eyebrow">Setores atendidos</div>
+    <h2 class="section-title">Feito para operações que não podem perder o rastro do que é essencial.</h2>
+    <p class="section-sub">De frotas municipais a operações de segurança patrimonial, a plataforma se adapta ao tamanho e à estrutura de cada cliente.</p>
+    <div class="sectors-grid">
+      <div class="sector-card">
+        <div class="sector-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 17h1a2 2 0 1 0 4 0h6a2 2 0 1 0 4 0h1a1 1 0 0 0 1-1v-4l-2-4h-4V6H6a2 2 0 0 0-2 2v9z" stroke="#0f6b5c" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Setor Público</h3>
+        <p>Gestão de frota, viaturas e ambulâncias para órgãos públicos, com plataforma white label e controle por secretaria ou departamento.</p>
+      </div>
+      <div class="sector-card">
+        <div class="sector-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="14" height="10" rx="1.5" stroke="#0f6b5c" stroke-width="1.6"/><path d="M17 10h2.5L21 13v4h-4" stroke="#0f6b5c" stroke-width="1.6" stroke-linejoin="round"/><circle cx="7.5" cy="17.5" r="1.5" stroke="#0f6b5c" stroke-width="1.6"/><circle cx="16.5" cy="17.5" r="1.5" stroke="#0f6b5c" stroke-width="1.6"/></svg></div>
+        <h3>Frotas e Logística</h3>
+        <p>Rastreamento em tempo real, cerca virtual e bloqueio remoto para dezenas ou milhares de veículos.</p>
+      </div>
+      <div class="sector-card">
+        <div class="sector-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 7.5-7 9-4-1.5-7-4.5-7-9V6l7-3z" stroke="#0f6b5c" stroke-width="1.6" stroke-linejoin="round"/></svg></div>
+        <h3>Segurança Patrimonial</h3>
+        <p>Camada extra de proteção com tags para bens e equipamentos sensíveis a extravio ou furto.</p>
+      </div>
+      <div class="sector-card">
+        <div class="sector-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="13" rx="1.5" stroke="#0f6b5c" stroke-width="1.6"/><path d="M8 21h8M12 17v4" stroke="#0f6b5c" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+        <h3>Empresas e Ativos</h3>
+        <p>Controle centralizado de veículos e equipamentos móveis, com relatórios por departamento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="tecnologias" class="tech-alt">
+  <div class="container">
+    <div class="section-eyebrow">As duas tecnologias</div>
+    <h2 class="section-title">Rastreamento ativo e rastreamento passivo, sob o mesmo painel.</h2>
+    <p class="section-sub">Cada operação tem uma necessidade diferente. Por isso a TrackingYou combina duas tecnologias complementares, e não uma solução única forçada a todo cenário.</p>
+
+    <div class="tech-grid">
+      <div class="tech-card pro">
+        <div class="tech-kicker">Rastreamento ativo</div>
+        <h3>TrackingYou PRO</h3>
+        <p class="tech-desc">Rastreador veicular 4G/GSM com chip M2M próprio. Instalado fisicamente no veículo, permite ação remota e monitoramento contínuo — a escolha para frotas e viaturas.</p>
+        <ul class="tech-specs">
+          <li><span class="k">Conectividade</span><span class="v hl">4G / GSM (chip M2M)</span></li>
+          <li><span class="k">Instalação</span><span class="v">Física, com fiação</span></li>
+          <li><span class="k">Bloqueio remoto</span><span class="v">Sim</span></li>
+          <li><span class="k">Cerca virtual</span><span class="v">Sim</span></li>
+          <li><span class="k">Bateria de backup</span><span class="v">Até 6h sem energia do veículo</span></li>
+          <li><span class="k">Indicado para</span><span class="v">Frota veicular</span></li>
+        </ul>
+      </div>
+
+      <div class="tech-card tag">
+        <div class="tech-kicker">Rastreamento passivo</div>
+        <h3>TAG+YOU</h3>
+        <p class="tech-desc">Tag compacta, sem chip, que utiliza a rede Find My da Apple — milhões de dispositivos formando uma rede de localização passiva. Sem instalação, sem fiação.</p>
+        <ul class="tech-specs">
+          <li><span class="k">Conectividade</span><span class="v hl">Bluetooth + rede Find My</span></li>
+          <li><span class="k">Instalação</span><span class="v">Nenhuma — plug-and-play</span></li>
+          <li><span class="k">Plano de dados</span><span class="v">Não requer</span></li>
+          <li><span class="k">Bateria</span><span class="v">Até 3 anos</span></li>
+          <li><span class="k">Resistência</span><span class="v">IP67 (à prova d'água)</span></li>
+          <li><span class="k">Indicado para</span><span class="v">Bens e equipamentos</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="combo-box">
+      <h4><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M12 2l2.5 6.5L21 11l-6.5 2.5L12 20l-2.5-6.5L3 11l6.5-2.5L12 2z" fill="#0f6b5c"/></svg> Uso combinado: uma camada extra de proteção</h4>
+      <p style="color:var(--muted); font-size:0.9rem; line-height:1.7;">Em furtos e roubos de veículo, bloqueadores de sinal (populares como "chupa-cabra" ou jammers) podem neutralizar temporariamente rastreadores GSM/GPS. Para operações críticas, recomendamos instalar as duas tecnologias no mesmo veículo:</p>
+      <ul class="combo-list">
+        <li><span class="check-ic">✓</span><span><b>Redundância real</b> — se um sinal for comprometido, o outro continua ativo, por operar em frequência distinta.</span></li>
+        <li><span class="check-ic">✓</span><span><b>Ativo + passivo</b> — o PRO permite ação remota; a TAG+YOU garante rastreamento mesmo sem conexão celular.</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section style="padding:2.6rem 0; background:var(--card); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container" style="display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;">
+    <div>
+      <div style="font-family:'Source Serif 4',serif; font-weight:700; font-size:1.15rem; margin-bottom:4px;">Quer ver qual tecnologia se encaixa na sua operação?</div>
+      <div style="color:var(--muted); font-size:0.9rem;">15 minutos com nosso time comercial já esclarecem o cenário e o próximo passo.</div>
+    </div>
+    <a href="#contato" class="btn-primary" style="white-space:nowrap;">Agendar reunião →</a>
+  </div>
+</section>
+
+<section id="plataforma">
+  <div class="container">
+    <div class="section-eyebrow">Plataforma de gestão</div>
+    <h2 class="section-title">White label, com a hierarquia de acesso que sua organização já usa.</h2>
+    <p class="section-sub">A plataforma pode operar com a identidade da sua empresa ou instituição — logotipo, nome do sistema e cores — enquanto sua equipe administra tudo com total autonomia.</p>
+
+    <div class="whitelabel-box">
+      <h4>O que significa "white label" na prática</h4>
+      <p class="wl-intro">A tecnologia por trás é da TrackingYou, mas quem usa o sistema no dia a dia — sua equipe, seus motoristas, seus fiscais — enxerga a marca da sua empresa ou instituição, não a nossa. É o mesmo modelo usado por bancos digitais que rodam sobre infraestrutura de terceiros: o cliente final não sabe, nem precisa saber, quem está por trás.</p>
+      <div class="wl-grid">
+        <div class="wl-item">
+          <div class="wl-label">Nome do sistema</div>
+          <div class="wl-value">Ex: "SIGA — Sistema de Gestão" em vez de "TrackingYou"</div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-label">Logotipo e ícone do app</div>
+          <div class="wl-value">Sua marca na tela de login, no app mobile e nos relatórios</div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-label">Paleta de cores</div>
+          <div class="wl-value">Interface adaptada às cores institucionais da sua organização</div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-label">Domínio próprio</div>
+          <div class="wl-value">Ex: rastreamento.suaempresa.com.br, em vez de um subdomínio nosso</div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-label">E-mails automáticos</div>
+          <div class="wl-value">Notificações e alertas enviados com o remetente da sua marca</div>
+        </div>
+        <div class="wl-item">
+          <div class="wl-label">Suporte nos bastidores</div>
+          <div class="wl-value">A TrackingYou continua responsável pela infraestrutura e manutenção</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="platform-grid">
+      <div>
+        <table class="role-table">
+          <tr><th>Perfil</th><th>Acesso</th></tr>
+          <tr><td class="role-name">Administrador</td><td class="role-desc">Controle total — cria usuários, define permissões, vê toda a operação</td></tr>
+          <tr><td class="role-name">Gerente</td><td class="role-desc">Gerencia veículos, bens e equipe do seu setor ou departamento</td></tr>
+          <tr><td class="role-name">Operador</td><td class="role-desc">Acompanhamento do dia a dia: localização, alertas, histórico</td></tr>
+          <tr><td class="role-name">Consulta</td><td class="role-desc">Somente leitura — auditoria, transparência, órgãos de controle</td></tr>
+        </table>
+      </div>
+      <ul class="platform-features">
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px;"><rect x="3" y="4" width="18" height="14" rx="2" stroke="#0f6b5c" stroke-width="1.6"/><path d="M8 21h8M12 18v3" stroke="#0f6b5c" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span><b>Web e aplicativo mobile</b>Mesmo controle de permissões nas duas plataformas, iOS e Android, sem custo adicional por usuário.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px;"><path d="M4 19V10M10 19V5M16 19v-7M20 19H4" stroke="#0f6b5c" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <span><b>Relatórios segmentados</b>Por usuário, secretaria, departamento ou veículo — exportáveis para auditoria e prestação de contas.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" stroke="#0f6b5c" stroke-width="1.6" stroke-linejoin="round"/></svg>
+          <span><b>Trilha de auditoria</b>Toda ação registrada na plataforma, para transparência interna e prestação de contas a órgãos de controle.</span>
+        </li>
+        <li>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" style="flex-shrink:0; margin-top:2px;"><rect x="4" y="4" width="7" height="7" rx="1.2" stroke="#0f6b5c" stroke-width="1.6"/><rect x="13" y="4" width="7" height="7" rx="1.2" stroke="#0f6b5c" stroke-width="1.6"/><rect x="4" y="13" width="7" height="7" rx="1.2" stroke="#0f6b5c" stroke-width="1.6"/><rect x="13" y="13" width="7" height="7" rx="1.2" stroke="#0f6b5c" stroke-width="1.6"/></svg>
+          <span><b>Organização por setor</b>Segmentação por secretaria, filial ou departamento, cada um com seus próprios veículos e usuários.</span>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="seguranca" class="tech-alt">
+  <div class="container">
+    <div class="section-eyebrow">Conformidade e segurança</div>
+    <h2 class="section-title">Equipamento homologado, processo transparente.</h2>
+    <div class="trust-grid">
+      <div class="trust-card">
+        <h4>Homologação Anatel</h4>
+        <p>Todo equipamento com radiofrequência comercializado no Brasil precisa de homologação da Anatel — não é diferencial opcional, é exigência legal. O TrackingYou PRO (modelo J16) é homologado e o número pode ser verificado publicamente antes da contratação.</p>
+        <div class="anatel-num">Nº 04895-25-16219</div>
+      </div>
+      <div class="trust-card">
+        <h4>Instalação e responsabilidade técnica</h4>
+        <p>A instalação do TrackingYou PRO deve ser feita por técnico habilitado — condição prevista no próprio certificado de homologação. Orientamos sua equipe ou indicamos parceiros técnicos para garantir que o equipamento funcione dentro das especificações.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="processo">
+  <div class="container">
+    <div class="section-eyebrow">Como funciona a contratação</div>
+    <h2 class="section-title">Cada operação tem um porte diferente. A proposta também.</h2>
+    <p class="section-sub">Não trabalhamos com preço fechado de prateleira — o volume de equipamentos, a estrutura da sua operação e o modelo de contrato (aquisição, mensalidade, comodato) definem a proposta.</p>
+    <div class="process-steps">
+      <div class="process-step">
+        <h4>Contato inicial</h4>
+        <p>Você nos conta sobre a operação: frota, ativos, número aproximado de unidades.</p>
+      </div>
+      <div class="process-step">
+        <h4>Levantamento técnico</h4>
+        <p>Entendemos qual tecnologia (ou combinação) faz sentido para o seu caso.</p>
+      </div>
+      <div class="process-step">
+        <h4>Proposta personalizada</h4>
+        <p>Você recebe uma proposta comercial com valores, prazos e condições específicas.</p>
+      </div>
+      <div class="process-step">
+        <h4>Implantação</h4>
+        <p>Equipamentos entregues, plataforma configurada e equipe treinada para operar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-final" id="contato">
+  <div class="container">
+    <div class="cta-grid">
+      <div class="cta-copy">
+        <div class="section-eyebrow">Fale com o time comercial</div>
+        <h2>Vamos agendar uma reunião e entender sua operação.</h2>
+        <p style="color:var(--muted); font-size:1.02rem; margin-bottom:2rem; line-height:1.7;">Sem valores fechados de prateleira — sua proposta é dimensionada pelo tamanho e pela necessidade real da sua empresa ou instituição.</p>
+        <ul class="cta-value-list">
+          <li><span class="check-ic">✓</span> Diagnóstico técnico gratuito da sua operação</li>
+          <li><span class="check-ic">✓</span> Demonstração da plataforma ao vivo</li>
+          <li><span class="check-ic">✓</span> Proposta comercial personalizada, por escrito</li>
+        </ul>
+        <p class="cta-note">Atendemos setor público, empresas de frota, logística e segurança patrimonial em todo o Brasil.</p>
+      </div>
+
+      <form class="cta-form" id="lead-form">
+        <div class="fg">
+          <label for="f-nome">Nome</label>
+          <input type="text" id="f-nome" required placeholder="Seu nome">
+        </div>
+        <div class="fg">
+          <label for="f-empresa">Empresa / Instituição</label>
+          <input type="text" id="f-empresa" required placeholder="Nome da empresa ou órgão público">
+        </div>
+        <div class="fg-row">
+          <div class="fg">
+            <label for="f-cargo">Cargo</label>
+            <input type="text" id="f-cargo" placeholder="Ex: Diretor de frota">
+          </div>
+          <div class="fg">
+            <label for="f-telefone">WhatsApp</label>
+            <input type="tel" id="f-telefone" required placeholder="(00) 00000-0000">
+          </div>
+        </div>
+        <div class="fg-row">
+          <div class="fg">
+            <label for="f-setor">Setor</label>
+            <select id="f-setor">
+              <option>Setor Público</option>
+              <option>Frotas e Logística</option>
+              <option>Segurança Patrimonial</option>
+              <option>Outro</option>
+            </select>
+          </div>
+          <div class="fg">
+            <label for="f-porte">Porte da operação</label>
+            <select id="f-porte">
+              <option>Até 10 veículos/itens</option>
+              <option>11 a 50</option>
+              <option>51 a 200</option>
+              <option>Mais de 200</option>
+            </select>
+          </div>
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%; justify-content:center; margin-top:0.5rem;">Agendar reunião comercial →</button>
+        <p style="font-size:0.76rem; color:var(--muted); text-align:center; margin-top:0.9rem;">Ao enviar, você será direcionado ao WhatsApp com seus dados preenchidos.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.getElementById('lead-form').addEventListener('submit', function(e){
+    e.preventDefault();
+    const nome = document.getElementById('f-nome').value.trim();
+    const empresa = document.getElementById('f-empresa').value.trim();
+    const cargo = document.getElementById('f-cargo').value.trim();
+    const telefone = document.getElementById('f-telefone').value.trim();
+    const setor = document.getElementById('f-setor').value;
+    const porte = document.getElementById('f-porte').value;
+
+    let msg = `Olá! Gostaria de agendar uma reunião comercial com a TrackingYou.\n\n`;
+    msg += `Nome: ${nome}\n`;
+    msg += `Empresa/Instituição: ${empresa}\n`;
+    if (cargo) msg += `Cargo: ${cargo}\n`;
+    msg += `WhatsApp para contato: ${telefone}\n`;
+    msg += `Setor: ${setor}\n`;
+    msg += `Porte da operação: ${porte}`;
+
+    const url = 'https://wa.me/5511963166971?text=' + encodeURIComponent(msg);
+    window.open(url, '_blank');
+  });
+</script>
+
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-logo">Tracking<span style="color:var(--teal-bright)">You</span></div>
+        <div class="footer-meta" style="margin-top:8px;">
+          MF Rastreadores e Soluções Tecnológicas LTDA · CNPJ 64.890.295/0001-00<br>
+          R. Caldas Novas, 50, Cond. B Trade — Bethaville I, Barueri – SP
+        </div>
+      </div>
+      <ul class="footer-links">
+        <li><a href="#tecnologias">Tecnologias</a></li>
+        <li><a href="#plataforma">Plataforma</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
